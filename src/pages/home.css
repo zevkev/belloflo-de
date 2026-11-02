@@ -95,7 +95,6 @@
       radial-gradient(closest-side at 70% 72%, rgb(45 226 230 / 0.32), transparent);
   }
   /* Hazard tape across the top right corner of the picture. */
-  .hero-tape { top: 1.4rem; right: -2.1rem; left: auto; width: 8rem; height: 0.95rem; rotate: 42deg; }
 
   .hero-copy { display: flex; flex-direction: column; align-items: center; min-width: 0; width: 100%; container-type: inline-size; }
   @media (min-width: 1024px) { .hero-copy { align-items: flex-start; } }
