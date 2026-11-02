@@ -1,0 +1,61 @@
+name: Refresh YouTube feed and Discord stats
+
+on:
+  schedule:
+    # GitHub heavily throttles very short cron intervals on small repos;
+    # 30 minutes is honoured far more reliably.
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch YouTube main channel feed
+        # Public RSS feed, no API key needed -- see the header comment in
+        # scripts/fetch-main-feed.mjs for the tradeoff this makes (capped at
+        # the channel's ~15 most recent uploads, no full history). Still
+        # continue-on-error so a transient feed hiccup never blocks the
+        # commit step below.
+        continue-on-error: true
+        run: node scripts/fetch-main-feed.mjs
+
+      - name: Fetch Discord invite stats
+        # Members/online count and the server icon for the homepage, stored
+        # in the repo so visitors never contact Discord.
+        continue-on-error: true
+        run: node scripts/fetch-discord.mjs
+
+      - name: Commit, push and deploy changes if any
+        # Pushes made with the workflow token do not start other workflows,
+        # so the site is deployed explicitly (workflow_dispatch is allowed).
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/data/main-videos.json assets/data/discord.json assets/img/discord-icon.png
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git commit -m "chore: refresh video feed and Discord stats"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          gh workflow run deploy.yml --ref main

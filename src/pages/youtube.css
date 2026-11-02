@@ -1,0 +1,308 @@
+/* Page styles: youtube. Wrap rules in @layer components so utilities can override them.
+   Everything here is yt- prefixed (this file is compiled into the shared
+   app.css that every page loads), so nothing leaks onto other pages. */
+@keyframes yt-title-glitch {
+  0%, 100% { text-shadow: none; translate: 0 0; }
+  30% { text-shadow: 2px 0 var(--cyan), -2px 0 var(--red); translate: -1px 0; }
+  60% { text-shadow: -1.5px 0 var(--cyan), 1.5px 0 var(--red); translate: 1px 0; }
+}
+
+@layer components {
+  /* ---------- Hero: channel panel ---------- */
+  /* The inner column is a size container, so the two line title scales with
+     the panel and "AUF YOUTUBE" never runs past its edge. */
+  .yt-channel { container-type: inline-size; }
+
+  .yt-hero-title {
+    font-size: clamp(2rem, 12.5cqi, 3.6rem);
+    line-height: 0.98;
+    text-transform: uppercase;
+  }
+  /* The glitch copies come from data-text, which holds a line break. */
+  .yt-hero-title::before, .yt-hero-title::after { white-space: pre-line; }
+
+  /* Avatar with the neon edge and the same chamfer as the panels. */
+  .yt-avatar {
+    padding: 2px;
+    background: var(--edge);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  }
+  .yt-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+  }
+
+  /* Stats readout: chamfered tiles with a coloured top bar, like HUD gauges.
+     Tiles take the width of their content; one that does not fit in the row
+     wraps and fills the next row. */
+  .yt-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .yt-stat {
+    --stat: var(--red);
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    min-width: 0;
+    padding: 0.85rem 0.9rem 0.8rem;
+    background: var(--surface-2);
+    box-shadow: inset 0 2px 0 var(--stat), inset 0 0 0 1px var(--line);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
+  }
+  .yt-stat:nth-child(2) { --stat: var(--cyan); }
+  .yt-stat:nth-child(3) { --stat: var(--yellow); }
+  .yt-stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 5vw, 2.1rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .yt-stat-label {
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ---------- Hero: newest video ---------- */
+  .yt-feature-thumb { display: block; }
+  /* Scanlines on hover only; the play glyph is the button below. */
+  .yt-feature-thumb::after {
+    background:
+      repeating-linear-gradient(0deg, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px),
+      rgb(227 18 59 / 0.2);
+  }
+  .yt-feature-thumb:hover::after { opacity: 1; }
+  .yt-feature-thumb:hover img { scale: 1.04; }
+
+  /* Play button: chamfered red face with an offset cyan shadow, like .btn. */
+  .yt-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    color: #fff;
+    translate: -50% -50%;
+    transition: scale 0.25s var(--ease-snap);
+  }
+  .yt-play::before, .yt-play::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  }
+  .yt-play::before { z-index: -1; background: var(--red); }
+  .yt-play::after { z-index: -2; background: var(--cyan); translate: 5px 5px; }
+  .yt-play svg { width: 1.9rem; height: 1.9rem; margin-left: 0.2rem; }
+  .yt-feature-thumb:hover .yt-play { scale: 1.08; }
+  @media (max-width: 639.98px) {
+    .yt-play { width: 3.6rem; height: 3.6rem; }
+    .yt-play svg { width: 1.5rem; height: 1.5rem; }
+  }
+
+  .yt-feature-title {
+    font-size: clamp(1.55rem, 3vw, 2.5rem);
+    line-height: 1.16;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+  .yt-feature-title a { text-decoration: none; }
+  .yt-feature-title a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 5px;
+  }
+
+  /* Error and empty notices. */
+  .yt-notice-icon {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: var(--red);
+    color: var(--red-ink);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  .yt-notice-icon svg { width: 1.75rem; height: 1.75rem; }
+
+  /* ---------- Ticker: the newest titles as a data stream ---------- */
+  .yt-ticker { padding-block: 0.95rem; }
+  .yt-tick-group { display: flex; gap: 2.5rem; }
+  .yt-tick {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.5rem;
+    white-space: nowrap;
+  }
+  .yt-tick-type {
+    color: var(--red);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .yt-tick-type::before { content: "//"; margin-right: 0.4rem; opacity: 0.6; }
+  .yt-tick-meta { color: var(--ink-muted); }
+
+  /* ---------- Videos / Shorts switch ---------- */
+  .yt-tabs {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 0.3rem;
+    padding: 0.35rem;
+  }
+  @media (min-width: 640px) {
+    .yt-tabs { display: inline-flex; width: auto; }
+  }
+  .yt-tab {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    justify-content: center;
+    gap: 0.55rem;
+    height: 3.1rem;
+    padding-inline: 0.75rem;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+  }
+  @media (min-width: 640px) {
+    .yt-tab { flex: none; height: 3.3rem; padding-inline: 1.5rem; font-size: 1.06rem; }
+  }
+  .yt-tab svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
+  @media (max-width: 359.98px) {
+    .yt-tab svg { display: none; }
+  }
+  .yt-tab-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.75rem;
+    height: 1.45rem;
+    padding-inline: 0.4rem;
+    background: var(--surface-2);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .yt-tab-count:empty { display: none; }
+  .yt-tab[aria-selected="true"] .yt-tab-count { background: rgb(0 0 0 / 0.24); color: #fff; }
+  .yt-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+  .yt-tab:disabled:hover { background: transparent; color: var(--ink-muted); }
+
+  /* The active tab's red block slides between the tabs (js/youtube.js sets
+     --ink-x and --ink-w). Without it the active tab is red as usual. */
+  .yt-tabs-ink {
+    position: absolute;
+    top: 0.35rem;
+    bottom: 0.35rem;
+    left: 0;
+    width: var(--ink-w, 0);
+    background: var(--red);
+    opacity: 0;
+    translate: var(--ink-x, 0) 0;
+    clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+  }
+  .yt-tabs.has-ink .yt-tabs-ink { opacity: 1; }
+  .yt-tabs.has-ink .yt-tab[aria-selected="true"] { background: transparent; }
+  .yt-tabs.ink-ready .yt-tabs-ink { transition: translate 0.38s var(--ease-snap), width 0.38s var(--ease-snap); }
+
+  /* Phones: the switch sticks under the header and takes the header's glass
+     look while it is stuck (.is-stuck, js/youtube.js). */
+  @media (max-width: 639.98px) {
+    .yt-tabbar {
+      position: sticky;
+      top: var(--header-h);
+      z-index: 40;
+      margin-inline: -1rem;
+      padding: 0.55rem 1rem;
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .yt-tabbar.is-stuck {
+      background: var(--chrome);
+      -webkit-backdrop-filter: blur(12px) saturate(1.2);
+              backdrop-filter: blur(12px) saturate(1.2);
+      box-shadow: 0 1px 0 var(--line), 0 14px 24px -18px rgb(0 0 0 / 0.55);
+    }
+  }
+
+  /* ---------- Grid cards (shared .video-card, tuned for this page) ---------- */
+  /* Equal card heights per row with the meta pinned to the bottom edge, and
+     a bit more air inside than the shared default. */
+  .yt-grid .video-card {
+    height: 100%;
+    gap: 0.85rem;
+    padding: 0.6rem 0.6rem 1.2rem;
+    transition: translate 0.25s var(--ease-snap), filter 0.3s ease;
+  }
+  .yt-grid .video-card:hover { filter: drop-shadow(0 18px 24px rgb(21 9 14 / 0.2)); }
+  :where([data-theme="dark"]) .yt-grid .video-card:hover { filter: drop-shadow(0 0 18px rgb(255 42 85 / 0.3)) drop-shadow(0 14px 22px rgb(0 0 0 / 0.6)); }
+  .yt-grid .video-card:focus-visible { outline-offset: 4px; }
+  .yt-grid .video-title { padding-inline: 0.5rem; line-height: 1.42; }
+  .yt-grid .video-meta { margin-top: auto; padding-inline: 0.5rem; }
+  /* A freshly rendered page of cards comes in one after another. */
+  .yt-grid > .reveal.is-visible { animation-delay: calc(var(--i, 0) * 45ms); }
+  .yt-meta {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.45rem;
+  }
+  .yt-meta > * + *::before {
+    content: "\00B7";
+    margin-right: 0.45rem;
+  }
+  /* "Platz 1" to "Platz 3" when sorted by views. */
+  .yt-rank {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    z-index: 1;
+  }
+  /* Thumbnail that failed to load: keep the dark frame, show a muted glyph. */
+  .yt-thumb-broken img { visibility: hidden; }
+  .yt-thumb-broken::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' fill-opacity='0.28'%3E%3Cpath d='M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z'/%3E%3C/svg%3E") center / 2.5rem no-repeat;
+  }
+
+  /* Shorts: 9:16 cards in a denser grid. */
+  .yt-grid--shorts .video-card { gap: 0.65rem; padding: 0.5rem 0.5rem 1rem; }
+  .yt-grid--shorts .video-title { font-size: 0.9rem; }
+  .yt-grid--shorts .yt-meta { flex-direction: column; row-gap: 0.15rem; }
+  .yt-grid--shorts .yt-meta > * + *::before { content: none; }
+  .yt-grid--shorts .video-thumb::after { background-size: 1.6rem, auto; }
+
+  /* ---------- Motion (hover glitches) ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .yt-grid .video-card:hover .video-title { animation: yt-title-glitch 0.4s steps(2) 1; }
+    .yt-feature-thumb:hover img { animation: fx-glitch 0.42s steps(2) 1; }
+  }
+}

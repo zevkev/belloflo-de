@@ -1,0 +1,126 @@
+/* Page styles: legal (Impressum, Datenschutz). Wrap rules in @layer components so utilities can override them.
+   One readable document per page on a HUD panel: the header with the
+   title, a neon rule, then the text. */
+@layer components {
+  /* Switcher between the two legal pages, above the document. */
+  .legal-nav { justify-content: center; max-width: 100%; }
+
+  .legal-sheet { width: 100%; max-width: 52rem; margin-inline: auto; }
+  .legal-head { padding: 2.75rem 1.5rem 2rem; container-type: inline-size; }
+  .legal-divider { margin-inline: 1.5rem; }
+  .legal-body { padding: 0.75rem 1.5rem 3rem; }
+  @media (min-width: 640px) {
+    .legal-head { padding: 3.75rem 3.5rem 2.5rem; }
+    .legal-divider { margin-inline: 3.5rem; }
+    .legal-body { padding: 1.25rem 3.5rem 4rem; }
+  }
+
+  /* Document typography: comfortable measure and generous line height. */
+  .legal { font-size: 1.0625rem; line-height: 1.8; overflow-wrap: break-word; }
+  /* The title scales with the header width (cqi), so a long word never
+     breaks mid word on a phone. The first declaration is the fallback
+     without container query units. .legal-title-long is for
+     "Datenschutzerklärung". */
+  .legal h1 {
+    font-size: clamp(1.75rem, 9vw, 3.25rem);
+    font-size: clamp(1.75rem, 12cqi, 3.25rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .legal h1.legal-title-long {
+    font-size: clamp(1.2rem, 6.4vw, 3rem);
+    font-size: clamp(1.15rem, 7.2cqi, 3rem);
+  }
+  .legal-lead { max-width: 40rem; margin-top: 1.1rem; color: var(--ink-muted); font-size: 1.08rem; line-height: 1.75; }
+
+  .legal h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 2.9rem;
+    font-size: clamp(1.25rem, 3.6vw, 1.55rem);
+    line-height: 1.2;
+  }
+  /* Unnumbered sections: a small red slash shape in front of the title. */
+  .legal h2::before {
+    content: "";
+    flex-shrink: 0;
+    align-self: stretch;
+    width: 0.7rem;
+    min-height: 1.1em;
+    background: var(--red);
+    clip-path: polygon(45% 0, 100% 0, 55% 100%, 0 100%);
+  }
+  .legal :where(p, ul, ol) { margin-top: 0.9rem; }
+  .legal :where(h2) + :where(p, ul, ol) { margin-top: 0.8rem; }
+  .legal :where(b, strong) { color: var(--ink); font-weight: 700; }
+  .legal ul { padding-left: 1.35rem; list-style: square; }
+  .legal li + li { margin-top: 0.5rem; }
+  .legal li::marker { color: var(--red); }
+  .legal p, .legal li { color: color-mix(in srgb, var(--ink) 86%, var(--ink-muted)); }
+  .legal a:not([class]) {
+    color: var(--link);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
+    transition: text-decoration-color 0.2s ease;
+  }
+  .legal a:not([class]):hover { text-decoration-color: currentColor; }
+
+  /* Numbered sections (Datenschutz): the number is a red chamfered tag,
+     counted in CSS so the numbering always follows the order. */
+  .legal-numbered { counter-reset: legal-section; }
+  .legal-numbered h2 { counter-increment: legal-section; }
+  .legal-numbered h2::before {
+    content: counter(legal-section, decimal-leading-zero);
+    display: grid;
+    place-items: center;
+    align-self: center;
+    width: auto;
+    min-width: 2.4rem;
+    min-height: 0;
+    height: 1.85rem;
+    padding-inline: 0.45rem;
+    color: var(--red-ink);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+  }
+
+  /* Datenschutz summary box, not counted as a section. */
+  .legal-tldr {
+    position: relative;
+    isolation: isolate;
+    margin-top: 1.75rem;
+    padding: 1.5rem 1.35rem 1.6rem;
+  }
+  .legal-tldr::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--surface-2);
+    box-shadow: inset 0 0 0 1.5px var(--line), inset 3px 0 0 var(--cyan);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  }
+  @media (min-width: 640px) { .legal-tldr { padding: 1.75rem 2rem 1.9rem; } }
+  .legal-numbered .legal-tldr h2 { margin-top: 0; counter-increment: none; }
+  .legal-numbered .legal-tldr h2::before { content: none; }
+  .legal-tldr ul { padding-left: 0; list-style: none; }
+  .legal-tldr li { position: relative; padding-left: 2rem; }
+  .legal-tldr li::before {
+    content: "";
+    position: absolute;
+    top: 0.3em;
+    left: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 0.8rem no-repeat;
+    clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+  }
+}

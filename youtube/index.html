@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Videos | Belloflo</title>
+<meta name="description" content="Gaming und Let's Plays von Belloflo: die neuesten Videos und Shorts vom YouTube Kanal.">
+<link rel="canonical" href="https://belloflo.de/youtube/">
+<link rel="icon" type="image/png" href="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<link rel="apple-touch-icon" href="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<meta name="theme-color" content="#e3123b">
+<link rel="preload" href="/assets/fonts/space-grotesk-wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/chakra-petch-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="stylesheet" href="/assets/css/app.css">
+<script src="/js/boot.js"></script>
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Belloflo">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Videos | Belloflo">
+<meta property="og:description" content="Gaming und Let's Plays von Belloflo: die neuesten Videos und Shorts vom YouTube Kanal.">
+<meta property="og:image" content="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<meta property="og:url" content="https://belloflo.de/youtube/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Videos | Belloflo">
+<meta name="twitter:description" content="Gaming und Let's Plays von Belloflo: die neuesten Videos und Shorts vom YouTube Kanal.">
+<meta name="twitter:image" content="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<noscript><style>.yt-needs-js { display: none !important; }</style></noscript>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+  <div class="container-page">
+
+    <!-- Hero: the channel panel next to the newest video. js/youtube.js fills
+         #yt-stats and #yt-feature once main-videos.json is loaded. -->
+    <section class="grid grid-cols-1 gap-10 pt-4 sm:pt-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:pt-8" aria-labelledby="yt-title">
+
+      <div class="panel flex flex-col">
+        <canvas class="fx-rain" data-rain aria-hidden="true"></canvas>
+        <span class="hazard left-auto right-6 rotate-[3deg]" aria-hidden="true"></span>
+        <div class="yt-channel flex flex-1 flex-col px-6 pb-8 pt-7 sm:p-9 lg:p-10">
+          <div class="flex items-center justify-between gap-4">
+            <a class="term transition-opacity hover:opacity-75" href="https://www.youtube.com/@Belloflo">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              @Belloflo
+            </a>
+            <div class="yt-avatar size-16 shrink-0 sm:size-[4.5rem]"><img src="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg" alt="Belloflo" width="144" height="144" decoding="async"></div>
+          </div>
+
+          <h1 id="yt-title" class="glitch yt-hero-title mt-7" data-text="Belloflo&#10;auf YouTube" data-scramble>Belloflo<br><span class="text-neon fx-flicker">auf YouTube</span></h1>
+
+          <p class="mt-6 max-w-md text-[1.02rem] leading-[1.75] text-ink-muted">Hier landen die neuesten Gaming Videos, Let's Plays und Shorts vom Kanal, das Neueste immer ganz oben. Ein Klick und du schaust direkt auf YouTube.</p>
+
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a class="btn btn-yt flex-auto sm:flex-none" href="https://www.youtube.com/@Belloflo?sub_confirmation=1">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              Abonnieren
+            </a>
+            <a class="btn flex-auto sm:flex-none" href="https://www.youtube.com/@Belloflo">
+              Zum Kanal
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+          </div>
+
+          <!-- Readout of the data the page has: the latest uploads only. -->
+          <div id="yt-readout" class="yt-needs-js mt-auto pt-10">
+            <hr class="divider-neon">
+            <p id="yt-stats-caption" class="term mt-7">Die letzten Uploads</p>
+            <ul id="yt-stats" class="yt-stats mt-4" aria-labelledby="yt-stats-caption">
+              <li class="yt-stat"><span class="skeleton block h-8 w-10"></span><span class="skeleton block h-3 w-14"></span></li>
+              <li class="yt-stat"><span class="skeleton block h-8 w-8"></span><span class="skeleton block h-3 w-14"></span></li>
+              <li class="yt-stat"><span class="skeleton block h-8 w-24"></span><span class="skeleton block h-3 w-16"></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="yt-feature" class="yt-needs-js focus:outline-none" tabindex="-1" aria-busy="true">
+        <div class="panel flex h-full flex-col" aria-hidden="true">
+          <div class="p-4 sm:p-5"><div class="skeleton aspect-video"></div></div>
+          <div class="flex flex-1 flex-col items-start px-6 pb-8 pt-5 sm:px-9 sm:pb-10">
+            <div class="skeleton h-6 w-36"></div>
+            <div class="skeleton mt-5 h-9 w-11/12"></div>
+            <div class="skeleton mt-2 h-9 w-2/3"></div>
+            <div class="mt-auto w-full pt-9">
+              <hr class="divider-neon">
+              <div class="skeleton mt-7 h-12 w-64 max-w-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <noscript>
+        <div class="panel flex h-full flex-col items-center justify-center px-8 py-14 text-center">
+          <p class="max-w-sm leading-relaxed">Ohne JavaScript kann die Videoliste leider nicht geladen werden. <a class="link" href="https://www.youtube.com/@Belloflo">Hier geht es direkt zum Kanal.</a></p>
+        </div>
+      </noscript>
+    </section>
+
+    <!-- Data stream: the newest titles run through as a ticker (decoration,
+         the same titles are in the grid below, so it is hidden from
+         screen readers). Filled by js/youtube.js. -->
+    <div id="yt-ticker" class="yt-needs-js panel yt-ticker mt-16 lg:mt-24" aria-hidden="true">
+      <div class="flex h-6 items-center px-4 sm:px-6">
+        <div id="yt-ticker-skel" class="skeleton h-3 w-full"></div>
+        <div id="yt-ticker-run" class="fx-ticker w-full" hidden>
+          <div id="yt-ticker-track" class="fx-ticker-track"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Library: Videos / Shorts switch, sort, grid, "Mehr laden", end of list. -->
+    <section id="yt-library" class="yt-needs-js mt-16 pb-8 lg:mt-24 lg:pb-14" aria-labelledby="yt-lib-title">
+      <div class="flex justify-center">
+        <div class="panel title-panel gap-3 px-8 py-7 sm:px-14 sm:py-9">
+          <p id="yt-updated" class="term" hidden></p>
+          <h2 id="yt-lib-title" class="title-panel-title" data-scramble>Frisch hochgeladen</h2>
+          <p id="yt-lib-sub" class="title-panel-sub max-w-xl leading-relaxed">Die neuesten Uploads vom Kanal. Ein Klick und du schaust direkt auf YouTube.</p>
+        </div>
+      </div>
+
+      <!-- One grid for switch, sort and list, so the switch can stay sticky
+           under the header on phones while the list scrolls. -->
+      <div class="mt-12 grid grid-cols-1 sm:mt-16 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center sm:gap-x-6">
+        <div id="yt-tabbar" class="yt-tabbar">
+          <div id="yt-tabs" class="seg yt-tabs" role="tablist" aria-label="Videos oder Shorts">
+            <span class="yt-tabs-ink" aria-hidden="true"></span>
+            <button type="button" class="seg-item yt-tab" role="tab" id="yt-tab-videos" data-mode="videos" aria-selected="true" aria-controls="yt-panel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M10 9.2v5.6l4.6-2.8z" fill="currentColor"/></svg>
+              Videos <span class="yt-tab-count" data-tab-count="videos"></span>
+            </button>
+            <button type="button" class="seg-item yt-tab" role="tab" id="yt-tab-shorts" data-mode="shorts" aria-selected="false" aria-controls="yt-panel" tabindex="-1">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+              Shorts <span class="yt-tab-count" data-tab-count="shorts"></span>
+            </button>
+          </div>
+        </div>
+
+        <div id="yt-sort" class="seg mt-4 flex w-full flex-nowrap sm:mt-0 sm:w-auto sm:justify-self-end" role="group" aria-label="Sortierung" hidden>
+          <span class="hidden items-center pl-2 pr-1 text-ink-muted sm:flex" aria-hidden="true">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+          </span>
+          <button type="button" class="seg-item flex-1 justify-center sm:flex-none" data-sort="new" aria-pressed="true">Neueste</button>
+          <button type="button" class="seg-item flex-1 justify-center sm:flex-none" data-sort="views" aria-pressed="false">Meistgesehen</button>
+        </div>
+
+        <div id="yt-panel" class="col-span-full mt-8 sm:mt-10" role="tabpanel" aria-labelledby="yt-tab-videos">
+          <ul id="yt-grid" class="yt-grid grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-10" aria-busy="true">
+            <li class="video-card" aria-hidden="true"><div class="skeleton aspect-video"></div><div class="skeleton mx-2 h-4 w-11/12"></div><div class="skeleton mx-2 h-4 w-3/5"></div><div class="skeleton mx-2 h-3 w-2/5"></div></li>
+            <li class="video-card" aria-hidden="true"><div class="skeleton aspect-video"></div><div class="skeleton mx-2 h-4 w-11/12"></div><div class="skeleton mx-2 h-4 w-3/5"></div><div class="skeleton mx-2 h-3 w-2/5"></div></li>
+            <li class="video-card" aria-hidden="true"><div class="skeleton aspect-video"></div><div class="skeleton mx-2 h-4 w-11/12"></div><div class="skeleton mx-2 h-4 w-3/5"></div><div class="skeleton mx-2 h-3 w-2/5"></div></li>
+            <li class="video-card" aria-hidden="true"><div class="skeleton aspect-video"></div><div class="skeleton mx-2 h-4 w-11/12"></div><div class="skeleton mx-2 h-4 w-3/5"></div><div class="skeleton mx-2 h-3 w-2/5"></div></li>
+            <li class="video-card" aria-hidden="true"><div class="skeleton aspect-video"></div><div class="skeleton mx-2 h-4 w-11/12"></div><div class="skeleton mx-2 h-4 w-3/5"></div><div class="skeleton mx-2 h-3 w-2/5"></div></li>
+            <li class="video-card" aria-hidden="true"><div class="skeleton aspect-video"></div><div class="skeleton mx-2 h-4 w-11/12"></div><div class="skeleton mx-2 h-4 w-3/5"></div><div class="skeleton mx-2 h-3 w-2/5"></div></li>
+          </ul>
+        </div>
+
+        <div class="col-span-full mt-14 flex flex-col items-center gap-5 sm:mt-16">
+          <button type="button" id="yt-more" class="btn btn-lg" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            Mehr laden
+          </button>
+          <p id="yt-progress" class="chip chip-dim" hidden></p>
+          <div id="yt-end" class="w-full" hidden></div>
+        </div>
+      </div>
+      <p id="yt-status" class="sr-only" aria-live="polite"></p>
+    </section>
+
+  </div>
+</main>
+
+<div id="site-footer"></div>
+<script type="module" src="/js/layout.js"></script>
+<script type="module" src="/js/youtube.js"></script>
+</body>
+</html>

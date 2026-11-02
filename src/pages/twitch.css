@@ -1,0 +1,274 @@
+/* Page styles: twitch (/twitch/). Everything here is tw- prefixed (this file
+   is compiled into the shared app.css), so nothing leaks onto other pages. */
+@layer components {
+  /* ---------- Uplink hero ---------- */
+  .tw-uplink { container-type: inline-size; }
+  .tw-hero-title {
+    font-size: clamp(2.4rem, 12cqi, 4.4rem);
+    line-height: 0.96;
+    text-transform: uppercase;
+  }
+  .tw-hero-title::before, .tw-hero-title::after { white-space: pre-line; }
+
+  /* Status console: a dark terminal in both themes. */
+  .tw-console {
+    --tw-accent: #9146ff;
+    position: relative;
+    color: #efe7f2;
+    background:
+      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 3px),
+      #0b0910;
+    box-shadow: inset 0 0 0 1.5px rgb(145 70 255 / 0.45);
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  }
+  .tw-console[data-state="live"] { --tw-accent: #ff2a55; box-shadow: inset 0 0 0 1.5px rgb(255 42 85 / 0.6); }
+  .tw-console[data-state="offline"] { --tw-accent: #a48fb0; }
+  .tw-console-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    color: #b9a9bb;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .tw-console-dots { display: flex; gap: 0.4rem; }
+  .tw-console-dots i { width: 0.5rem; height: 0.5rem; background: rgb(255 255 255 / 0.18); }
+  .tw-console-dots i:first-child { background: var(--tw-accent); }
+
+  /* Oscilloscope: spikes while live, a calm line while offline. */
+  .tw-scope {
+    position: relative;
+    height: 5.5rem;
+    margin: 1.1rem 1.25rem 0;
+    overflow: hidden;
+    background:
+      linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 100% 22px,
+      linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 22px 100%;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07);
+  }
+  /* Two periods side by side; the loop slides it by one. */
+  .tw-scope-wave { position: absolute; top: 0; left: 0; width: 200%; height: 100%; }
+  .tw-scope-wave path {
+    fill: none;
+    stroke: var(--tw-accent);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 0 4px var(--tw-accent));
+  }
+  .tw-scope-sweep {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 30%;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.07));
+    border-right: 1px solid rgb(255 255 255 / 0.25);
+  }
+
+  .tw-log {
+    display: grid;
+    gap: 0.55rem;
+    padding: 1.2rem 1.25rem 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+  .tw-line { min-width: 0; overflow-wrap: anywhere; color: #cdbfd0; }
+  .tw-line b { color: #fff; font-weight: 700; }
+  .tw-prompt { color: var(--tw-accent); font-weight: 700; }
+  .tw-line .tw-v-live { color: #ff5c7c; text-shadow: 0 0 10px rgb(255 42 85 / 0.7); }
+  .tw-line .tw-v-off { color: #b9a9bb; }
+
+  /* ---------- Stage: live ---------- */
+  /* The player never sits inside a CSS filter, so this frame paints its
+     glow on a separate blurred layer instead of using drop-shadow. */
+  .tw-live { position: relative; isolation: isolate; }
+  .tw-live-glow {
+    position: absolute;
+    inset: 6%;
+    z-index: -1;
+    background: linear-gradient(110deg, #9146ff, #ff2a55 55%, #2de2e6);
+    filter: blur(42px);
+    opacity: 0.35;
+  }
+  .tw-live-frame {
+    position: relative;
+    padding: 0.75rem;
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1.5px rgb(145 70 255 / 0.55);
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  }
+  @media (min-width: 640px) { .tw-live-frame { padding: 1rem; } }
+
+  .tw-player {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #0b0910;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  .tw-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .tw-player-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; filter: blur(3px) saturate(1.2); scale: 1.04; }
+  .tw-gate {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    text-align: center;
+    color: #fff;
+    background:
+      repeating-linear-gradient(0deg, rgb(0 0 0 / 0.25) 0 1px, transparent 1px 3px),
+      radial-gradient(circle at 50% 40%, rgb(145 70 255 / 0.45), rgb(11 9 16 / 0.92) 70%);
+  }
+  .tw-gate-icon {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: #9146ff;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  .tw-gate-icon svg { width: 1.7rem; height: 1.7rem; }
+  .tw-gate-title { font-size: clamp(1.4rem, 4vw, 2.3rem); text-transform: uppercase; }
+  .tw-gate-text { max-width: 30rem; font-size: 0.88rem; line-height: 1.6; color: rgb(255 255 255 / 0.78); }
+  .tw-gate-text a { color: #fff; font-weight: 600; text-decoration: underline; }
+  /* Phones: 16:9 is too flat for the notice and the button, so until the
+     player is loaded the box grows with its content. */
+  @media (max-width: 639.98px) {
+    .tw-player:not(.is-loaded) { aspect-ratio: auto; }
+    .tw-player:not(.is-loaded) .tw-gate { position: relative; inset: auto; padding: 2.25rem 1.25rem 2.5rem; }
+    .tw-gate-text { font-size: 0.82rem; }
+  }
+
+  .tw-live-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding: 1.6rem 0.75rem 0.9rem;
+  }
+  @media (min-width: 640px) { .tw-live-info { padding: 2rem 1.5rem 1.25rem; } }
+  @media (min-width: 1024px) { .tw-live-info { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 3rem; } }
+  .tw-since { font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-muted); }
+
+  .tw-stage-title {
+    font-size: clamp(1.6rem, 3.6vw, 2.5rem);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+  .tw-title-link { text-decoration: none; background: linear-gradient(var(--red), var(--red)) 0 100% / 0 2px no-repeat; transition: background-size 0.3s var(--ease-soft); }
+  .tw-title-link:hover { background-size: 100% 2px; }
+  .tw-stage-meta { font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-muted); line-height: 1.7; }
+  .tw-chip-off::before { content: ""; width: 0.45rem; height: 0.45rem; border-radius: 9999px; background: var(--ink-muted); }
+
+  /* ---------- Stage: newest past stream ---------- */
+  .tw-feature-thumb { display: block; }
+  .tw-feature-thumb:hover img { scale: 1.04; }
+  .tw-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 4.25rem;
+    height: 4.25rem;
+    translate: -50% -50%;
+    color: #fff;
+    background: #9146ff;
+    box-shadow: 5px 5px 0 var(--cyan);
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+    transition: scale 0.25s var(--ease-snap);
+  }
+  .tw-play svg { width: 1.6rem; height: 1.6rem; }
+  .tw-feature-thumb:hover .tw-play { scale: 1.1; }
+
+  .tw-thumb-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgb(255 255 255 / 0.85);
+    background:
+      repeating-linear-gradient(0deg, rgb(0 0 0 / 0.2) 0 1px, transparent 1px 3px),
+      radial-gradient(circle at 50% 45%, #5b2bb0, #160d26 75%);
+  }
+  .tw-thumb-fallback svg { width: 2.4rem; height: 2.4rem; }
+
+  /* ---------- Stage: nothing to show ---------- */
+  .tw-nosignal { overflow: hidden; }
+  /* TV static, very faint, behind the content. */
+  .tw-static {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  }
+  :where([data-theme="dark"]) .tw-static { opacity: 0.1; }
+  .tw-nosignal-icon {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    color: #fff;
+    background: #9146ff;
+    box-shadow: 6px 6px 0 var(--red);
+    clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  }
+  .tw-nosignal-icon svg { width: 2.1rem; height: 2.1rem; }
+  .tw-nosignal-title { font-size: clamp(2.2rem, 7vw, 4rem); text-transform: uppercase; line-height: 1; }
+
+  /* ---------- Archive ---------- */
+  .tw-vod-body { display: grid; gap: 0.5rem; padding-bottom: 0.15rem; }
+  /* Phones: compact rows (thumbnail left, text right), like an app list. */
+  @media (max-width: 639.98px) {
+    .tw-vod { flex-direction: row; align-items: center; gap: 0.9rem; padding: 0.5rem 0.75rem 0.5rem 0.5rem; }
+    .tw-vod .video-thumb { width: 44%; flex-shrink: 0; }
+    .tw-vod .video-title { padding-inline: 0; font-size: 0.92rem; -webkit-line-clamp: 3; }
+    .tw-vod .video-meta { padding-inline: 0; }
+    .tw-vod .tw-thumb-fallback svg { width: 1.6rem; height: 1.6rem; }
+  }
+
+  .tw-note {
+    max-width: 38rem;
+    padding: 0.95rem 1.3rem;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-muted);
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1.5px var(--line);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tw-scope-wave { animation: tw-wave 3.2s linear infinite; }
+    .tw-console[data-state="offline"] .tw-scope-wave { animation-duration: 9s; }
+    .tw-scope-sweep { animation: tw-sweep 2.6s linear infinite; }
+    .tw-line { animation: tw-type 0.55s steps(24) both; animation-delay: calc(var(--i, 0) * 0.32s + 0.15s); }
+    .tw-live-glow { animation: tw-glow 3s ease-in-out infinite alternate; }
+    .tw-static { animation: tw-static 0.6s steps(3) infinite; }
+    .tw-gate-icon { animation: tw-float 3.5s ease-in-out infinite; }
+  }
+}
+
+@keyframes tw-wave { to { translate: -50% 0; } }
+@keyframes tw-sweep { from { translate: -100% 0; } to { translate: 340% 0; } }
+@keyframes tw-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes tw-glow { from { opacity: 0.22; } to { opacity: 0.45; } }
+@keyframes tw-static {
+  0% { background-position: 0 0; }
+  33% { background-position: -47px 31px; }
+  66% { background-position: 23px -58px; }
+  100% { background-position: 0 0; }
+}
+@keyframes tw-float { 50% { translate: 0 -5px; } }

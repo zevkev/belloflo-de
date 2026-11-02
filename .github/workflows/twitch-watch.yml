@@ -1,0 +1,42 @@
+name: Watch Twitch live status
+
+on:
+  schedule:
+    # GitHub fires short cron schedules on small repos only every few hours,
+    # so each run watches for almost the whole 6 hour job limit (see
+    # scripts/watch-twitch.mjs). A newer run replaces the running one, which
+    # keeps exactly one watcher alive.
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: twitch-watch
+  cancel-in-progress: true
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Watch Twitch and publish changes
+        env:
+          TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+          GH_TOKEN: ${{ github.token }}
+          WATCH_MINUTES: "340"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          node scripts/watch-twitch.mjs --publish

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seite nicht gefunden | Belloflo</title>
+<meta name="description" content="Diese Seite gibt es nicht (mehr).">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<link rel="apple-touch-icon" href="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<meta name="theme-color" content="#e3123b">
+<link rel="preload" href="/assets/fonts/space-grotesk-wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/chakra-petch-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/app.css">
+<script src="/js/boot.js"></script>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Seite nicht gefunden | Belloflo">
+<meta property="og:description" content="Diese Seite gibt es nicht (mehr).">
+<meta property="og:image" content="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<meta property="og:site_name" content="Belloflo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+
+<!--
+  GitHub Pages serves this file (only from the repo root) for every path
+  that has no real file, with HTTP status 404. All paths are root absolute
+  because it renders at any URL.
+  Old links of the previous shop site (paths like /en-eur/... that still
+  sit in older video descriptions) go to the homepage instead.
+-->
+<script>
+  (function () {
+    var first = (location.pathname.split("/")[1] || "").toLowerCase();
+    if (/^[a-z]{2}-[a-z]{3}$/.test(first)) location.replace("/");
+  })();
+</script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+  <div class="container-page">
+    <section class="panel nf mx-auto" aria-labelledby="nf-title">
+      <span class="hazard nf-tape" aria-hidden="true"></span>
+      <div class="nf-body">
+        <span class="term">Fehler 404</span>
+        <p class="glitch text-neon nf-code" data-text="404" aria-hidden="true">404</p>
+        <h1 id="nf-title" class="nf-title">Signal verloren</h1>
+        <p class="nf-text">Diese Seite gibt es nicht. Vielleicht ist der Link falsch oder schon etwas älter.</p>
+        <p class="nf-path" id="nf-path" hidden>Nicht gefunden: <span id="nf-path-value"></span></p>
+        <div class="nf-actions">
+          <a class="btn btn-red btn-lg" href="/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/></svg>
+            Home
+          </a>
+          <a class="btn btn-lg" href="/youtube/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m10 9.2 5 2.8-5 2.8Z"/></svg>
+            Videos
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div id="site-footer"></div>
+<script>
+  // Show which address was not found. textContent only.
+  (function () {
+    var path = location.pathname;
+    try { path = decodeURIComponent(path); } catch (e) {}
+    document.getElementById("nf-path-value").textContent = path;
+    document.getElementById("nf-path").hidden = false;
+  })();
+</script>
+<script type="module" src="/js/layout.js"></script>
+</body>
+</html>

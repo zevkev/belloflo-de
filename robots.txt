@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://belloflo.de/sitemap.xml

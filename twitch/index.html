@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Twitch | Belloflo</title>
+<meta name="description" content="Belloflo live auf Twitch: der aktuelle Stream und die vergangenen Streams.">
+<link rel="canonical" href="https://belloflo.de/twitch/">
+<link rel="icon" type="image/png" href="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<link rel="apple-touch-icon" href="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<meta name="theme-color" content="#e3123b">
+<link rel="preload" href="/assets/fonts/space-grotesk-wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/chakra-petch-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/app.css">
+<script src="/js/boot.js"></script>
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Belloflo">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Twitch | Belloflo">
+<meta property="og:description" content="Belloflo live auf Twitch: der aktuelle Stream und die vergangenen Streams.">
+<meta property="og:image" content="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<meta property="og:url" content="https://belloflo.de/twitch/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Twitch | Belloflo">
+<meta name="twitter:description" content="Belloflo live auf Twitch: der aktuelle Stream und die vergangenen Streams.">
+<meta name="twitter:image" content="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg">
+<noscript><style>.tw-needs-js { display: none !important; }</style></noscript>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+  <div class="container-page">
+
+    <!-- Uplink: title and buttons next to the status console. js/twitch-page.js
+         fills the console (#tw-log, #tw-scope) from live-status.json. -->
+    <section class="panel fx-scan" aria-labelledby="tw-title">
+      <canvas class="fx-rain" data-rain aria-hidden="true"></canvas>
+      <span class="hazard left-auto right-8 rotate-[3deg]" aria-hidden="true"></span>
+      <div class="grid grid-cols-1 gap-10 px-6 py-9 sm:p-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-center lg:gap-14 lg:p-14">
+        <div class="tw-uplink">
+          <div><a class="term transition-opacity hover:opacity-75" href="https://www.twitch.tv/belloflo_ttv">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0 1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+            belloflo_ttv
+          </a></div>
+          <h1 id="tw-title" class="glitch tw-hero-title mt-6" data-text="Belloflo&#10;auf Twitch" data-scramble>Belloflo<br><span class="text-neon">auf Twitch</span></h1>
+          <p class="mt-7 max-w-lg text-lg leading-relaxed text-ink-muted">Läuft gerade ein Stream, schaust du ihn hier direkt. Sonst warten unten die vergangenen Streams, ein Klick und es geht auf Twitch weiter.</p>
+          <div class="mt-9 flex flex-wrap gap-4">
+            <a class="btn btn-twitch btn-lg flex-auto sm:flex-none" href="https://www.twitch.tv/belloflo_ttv">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0 1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+              Auf Twitch folgen
+            </a>
+            <a class="btn btn-lg flex-auto sm:flex-none" href="https://www.twitch.tv/belloflo_ttv/videos">
+              Alle Streams
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Status console: always a dark terminal, also in light mode. Only
+             real information goes in here, no decorative filler text. -->
+        <div class="tw-console" data-state="loading">
+          <div class="tw-console-bar">
+            <span>Stream Status</span>
+            <span class="tw-console-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+          <div class="tw-scope" aria-hidden="true">
+            <svg class="tw-scope-wave" viewBox="0 0 800 60" preserveAspectRatio="none"><path id="tw-wave" d="M0 30 H800"/></svg>
+            <span class="tw-scope-sweep"></span>
+          </div>
+          <ol id="tw-log" class="tw-log" aria-live="polite">
+            <li class="tw-line" style="--i:0"><span class="tw-prompt">&gt;</span> Status wird geladen<span class="cursor"></span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stage: live player (click to load), newest VOD, or "Kein Signal". -->
+    <section id="tw-stage" class="tw-needs-js mt-20 sm:mt-28" aria-label="Stream">
+      <div class="panel" aria-hidden="true">
+        <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+          <div class="p-3 sm:p-4"><div class="skeleton aspect-video"></div></div>
+          <div class="flex flex-col items-start p-6 sm:p-10">
+            <div class="skeleton h-6 w-40"></div>
+            <div class="skeleton mt-6 h-9 w-11/12"></div>
+            <div class="skeleton mt-3 h-9 w-2/3"></div>
+            <div class="skeleton mt-8 h-12 w-56 max-w-full"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <noscript>
+      <div class="panel mt-20 px-7 py-10 text-center">
+        <p class="mx-auto max-w-md leading-relaxed">Ohne JavaScript kann der Stream Status leider nicht geladen werden. <a class="link" href="https://www.twitch.tv/belloflo_ttv">Hier geht es direkt zum Twitch Kanal.</a></p>
+      </div>
+    </noscript>
+
+    <!-- Archive of past streams (Twitch VODs). Hidden while there are none. -->
+    <section id="tw-archive" class="tw-needs-js mt-24 sm:mt-32" aria-labelledby="tw-archive-title" hidden>
+      <div class="flex justify-center">
+        <div class="panel title-panel">
+          <span class="term">Archiv</span>
+          <h2 id="tw-archive-title" class="title-panel-title" data-scramble>Vergangene Streams</h2>
+          <p id="tw-archive-sub" class="title-panel-sub">Verpasst? Hier sind die letzten Streams zum Nachschauen.</p>
+        </div>
+      </div>
+      <div id="tw-grid" class="mt-12 grid grid-cols-1 gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3"></div>
+      <div class="mt-12 flex flex-col items-center gap-6">
+        <button id="tw-more" class="btn" type="button" hidden>Mehr laden</button>
+        <p class="tw-note">Twitch hebt vergangene Streams nur eine begrenzte Zeit auf. Gaming und Let's Plays gibt es jederzeit bei den <a class="link" href="/youtube/">Videos</a>.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div id="site-footer"></div>
+<script type="module" src="/js/layout.js"></script>
+<script type="module" src="/js/twitch-page.js"></script>
+</body>
+</html>

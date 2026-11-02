@@ -1,0 +1,61 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build CSS (Tailwind)
+        run: |
+          npm ci
+          npm run build
+          test -s assets/css/app.css
+          rm -rf node_modules
+
+      - name: Cache-bust CSS
+        # GitHub Pages lets browsers cache files for 10 minutes. Without a
+        # version in the URL a visitor can get the new HTML with the old CSS
+        # right after a deploy (broken layout). JS modules are deliberately
+        # NOT versioned: a module imported with and without ?v= loads twice.
+        run: |
+          v="${GITHUB_SHA::8}"
+          find . -name "*.html" -not -path "./node_modules/*" -not -path "./.git/*" -print0 \
+            | xargs -0 sed -i -E "s#(href=\"/assets/css/app\.css)\"#\1?v=$v\"#g"
+          grep -q "app.css?v=$v" index.html
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
